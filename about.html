@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>О проекте - Книга памяти Балахтинского района</title>
+    <style>
+        :root {
+            --paper: #f6efe6;
+            --paper-strong: #fffaf3;
+            --ink: #231f1c;
+            --muted: #6f625b;
+            --line: #dfd0c4;
+            --red: #691f21;
+            --red-deep: #4e0d0d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .topbar {
+            background: var(--red);
+            color: #fff;
+            padding: 22px;
+        }
+
+        .topbar-inner {
+            align-items: center;
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            margin: 0 auto;
+            max-width: 980px;
+        }
+
+        .brand {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav {
+            align-items: center;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav a {
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 999px;
+            color: #fff;
+            padding: 9px 13px;
+            text-decoration: none;
+        }
+
+        .layout {
+            margin: 0 auto;
+            max-width: 980px;
+            padding: 34px 22px 60px;
+        }
+
+        .content-card {
+            background: var(--paper-strong);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: 0 18px 45px rgba(36, 19, 15, 0.12);
+            padding: clamp(22px, 4vw, 42px);
+        }
+
+        h1 {
+            color: var(--red-deep);
+            font-family: Georgia, serif;
+            font-size: clamp(34px, 6vw, 54px);
+            line-height: 1;
+            margin: 0 0 22px;
+        }
+
+        p {
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.7;
+            margin: 0 0 18px;
+        }
+
+        .source-note {
+            border-top: 1px solid var(--line);
+            color: var(--ink);
+            margin-top: 24px;
+            padding-top: 20px;
+        }
+
+        .source-note p {
+            color: var(--ink);
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .source-note span {
+            color: var(--muted);
+        }
+
+        @media (max-width: 620px) {
+            .topbar-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <div class="brand">Балахтинский район</div>
+            <nav class="nav">
+                <a href="index.html">Книга памяти</a>
+                <a href="svo/index.html">СВО</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="layout">
+        <article class="content-card">
+            <h1>О проекте</h1>
+            <p>Эта электронная Книга памяти разработана Балахтинским районным краеведческим музеем и собирает сведения об участниках Великой Отечественной войны, связанных с Балахтинским и бывшим Даурским районами.</p>
+            <p>Раздел «Памятная стена участникам СВО» посвящён землякам, погибшим в ходе специальной военной операции. Материалы раздела также могут уточняться и дополняться по мере поступления новых сведений.</p>
+            <p>Данные могут уточняться: если вы заметили ошибку или хотите дополнить карточку, обратитесь к редактору проекта или напишите нам на email: muzbal@yandex.ru</p>
+            <div class="source-note">
+                <p><span>Источник сведений о Великой Отечественной войне:</span> значительная часть информации взята с сайта https://pamyat-naroda.ru</p>
+                <p><span>Источник сведений раздела СВО:</span> архив Балахтинского районного краеведческого музея</p>
+            </div>
+        </article>
+    </main>
+</body>
+</html>

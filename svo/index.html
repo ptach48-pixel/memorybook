@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Памятная стена участникам СВО - Книга памяти Балахтинского района</title>
+    <style>
+        :root {
+            --bg: #f6efe6;
+            --panel: #fffaf3;
+            --panel-soft: #fbf6ef;
+            --ink: #231f1c;
+            --muted: #6f625b;
+            --line: #dfd0c4;
+            --red: #691f21;
+            --red-deep: #4e0d0d;
+            --shadow: 0 14px 32px rgba(36, 19, 15, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .hero {
+            background: var(--red);
+            color: #fff;
+            padding: 22px 22px 30px;
+        }
+
+        .hero-inner,
+        .content {
+            margin: 0 auto;
+            max-width: 1180px;
+        }
+
+        .topline {
+            align-items: center;
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            margin-bottom: 44px;
+        }
+
+        .brand {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav {
+            align-items: center;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav a {
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 999px;
+            color: #fff;
+            padding: 9px 13px;
+            text-decoration: none;
+        }
+
+        h1 {
+            font-family: Georgia, serif;
+            font-size: clamp(34px, 6vw, 64px);
+            line-height: 1;
+            margin: 0;
+            max-width: 820px;
+        }
+
+        .lead {
+            color: rgba(255, 255, 255, 0.84);
+            font-size: 17px;
+            line-height: 1.6;
+            margin: 18px 0 0;
+            max-width: 720px;
+        }
+
+        .hero-meta {
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.24);
+            color: rgba(255, 255, 255, 0.78);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 22px;
+            margin-top: 34px;
+            padding-top: 18px;
+        }
+
+        .hero-meta strong {
+            color: #fff;
+            font-size: 22px;
+        }
+
+        .content {
+            padding: 28px 22px 56px;
+        }
+
+        .toolbar {
+            align-items: center;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: grid;
+            gap: 14px;
+            grid-template-columns: 1fr auto;
+            margin-bottom: 24px;
+            padding: 16px;
+        }
+
+        .search {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            color: var(--ink);
+            min-height: 48px;
+            padding: 0 14px;
+            width: 100%;
+        }
+
+        .counter {
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+            text-align: left;
+            transition: box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .card:hover {
+            border-color: #b7956e;
+            box-shadow: 0 10px 22px rgba(36, 19, 15, 0.12);
+        }
+
+        .card:focus-visible {
+            outline: 3px solid rgba(105, 31, 33, 0.28);
+            outline-offset: 2px;
+        }
+
+        .photo {
+            aspect-ratio: 3 / 4;
+            background: #e9dccf;
+        }
+
+        .photo img {
+            height: 100%;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .card-name {
+            border-top: 1px solid var(--line);
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.3;
+            min-height: 58px;
+            padding: 10px 11px;
+        }
+
+        .note {
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-top: 30px;
+            padding-top: 18px;
+        }
+
+        .empty {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            color: var(--muted);
+            padding: 28px;
+            text-align: center;
+        }
+
+        .modal {
+            align-items: center;
+            background: rgba(20, 12, 10, 0.78);
+            display: none;
+            inset: 0;
+            justify-content: center;
+            padding: 22px;
+            position: fixed;
+            z-index: 20;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-dialog {
+            background: var(--panel);
+            border-radius: 4px;
+            max-height: 92vh;
+            max-width: min(900px, 96vw);
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .modal-photo {
+            background: #17110f;
+            max-height: 78vh;
+        }
+
+        .modal-photo img {
+            display: block;
+            max-height: 78vh;
+            object-fit: contain;
+            width: 100%;
+        }
+
+        .modal-body {
+            align-items: center;
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            padding: 16px;
+        }
+
+        .modal-body h2 {
+            font-family: Georgia, serif;
+            font-size: 25px;
+            line-height: 1.1;
+            margin: 0;
+        }
+
+        .close {
+            background: transparent;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            cursor: pointer;
+            height: 40px;
+            width: 40px;
+        }
+
+        @media (max-width: 760px) {
+            .topline,
+            .toolbar,
+            .modal-body {
+                align-items: flex-start;
+                grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+            }
+
+            .hero {
+                padding-bottom: 24px;
+            }
+
+            .hero-meta strong {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-inner">
+            <div class="topline">
+                <div class="brand">Балахтинский район</div>
+                <nav class="nav">
+                    <a href="../index.html">Книга памяти</a>
+                    <a href="../about.html">О проекте</a>
+                </nav>
+            </div>
+            <h1>Памятная стена участникам СВО</h1>
+            <p class="lead">Раздел хранит фотографии земляков, погибших в ходе специальной военной операции. Сведения находятся в работе и могут уточняться.</p>
+            <div class="hero-meta">
+                <div><strong>82</strong> фотографий</div>
+                <div>Поиск по фамилии, имени или отчеству</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <section class="toolbar">
+            <input class="search" id="searchInput" type="search" autocomplete="off" placeholder="Поиск по ФИО">
+            <div class="counter" id="counter">Всего: 82</div>
+        </section>
+
+        <section>
+            <div class="grid" id="grid">
+                                    <article class="card" tabindex="0" data-name="андреев павел андреевич" data-title="Андреев Павел Андреевич" data-src="svophoto/%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B5%D0%B2%20%D0%9F%D0%B0%D0%B2%D0%B5%D0%BB%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B5%D0%B2%20%D0%9F%D0%B0%D0%B2%D0%B5%D0%BB%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Андреев Павел Андреевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Андреев Павел Андреевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="афонин максим дмитриевич" data-title="Афонин Максим Дмитриевич" data-src="svophoto/%D0%90%D1%84%D0%BE%D0%BD%D0%B8%D0%BD%20%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%90%D1%84%D0%BE%D0%BD%D0%B8%D0%BD%20%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Афонин Максим Дмитриевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Афонин Максим Дмитриевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="багдасаров александр гаулович" data-title="Багдасаров Александр Гаулович" data-src="svophoto/%D0%91%D0%B0%D0%B3%D0%B4%D0%B0%D1%81%D0%B0%D1%80%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%93%D0%B0%D1%83%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%91%D0%B0%D0%B3%D0%B4%D0%B0%D1%81%D0%B0%D1%80%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%93%D0%B0%D1%83%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Багдасаров Александр Гаулович" loading="lazy">
+                        </div>
+                        <div class="card-name">Багдасаров Александр Гаулович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="базлов константин николаевич" data-title="Базлов Константин Николаевич" data-src="svophoto/%D0%91%D0%B0%D0%B7%D0%BB%D0%BE%D0%B2%20%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D0%B0%D0%BD%D1%82%D0%B8%D0%BD%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%91%D0%B0%D0%B7%D0%BB%D0%BE%D0%B2%20%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D0%B0%D0%BD%D1%82%D0%B8%D0%BD%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Базлов Константин Николаевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Базлов Константин Николаевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="бондарев сергей алксандрович" data-title="Бондарев Сергей Алксандрович" data-src="svophoto/%D0%91%D0%BE%D0%BD%D0%B4%D0%B0%D1%80%D0%B5%D0%B2%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%90%D0%BB%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%91%D0%BE%D0%BD%D0%B4%D0%B0%D1%80%D0%B5%D0%B2%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%90%D0%BB%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Бондарев Сергей Алксандрович" loading="lazy">
+                        </div>
+                        <div class="card-name">Бондарев Сергей Алксандрович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="булич денис викторович" data-title="Булич Денис Викторович" data-src="svophoto/%D0%91%D1%83%D0%BB%D0%B8%D1%87%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%91%D1%83%D0%BB%D0%B8%D1%87%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Булич Денис Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Булич Денис Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="воробьев владимир иванович" data-title="Воробьев Владимир Иванович" data-src="svophoto/%D0%92%D0%BE%D1%80%D0%BE%D0%B1%D1%8C%D0%B5%D0%B2%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%92%D0%BE%D1%80%D0%BE%D0%B1%D1%8C%D0%B5%D0%B2%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Воробьев Владимир Иванович" loading="lazy">
+                        </div>
+                        <div class="card-name">Воробьев Владимир Иванович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="вяткин евгений владимирович" data-title="Вяткин Евгений Владимирович" data-src="svophoto/%D0%92%D1%8F%D1%82%D0%BA%D0%B8%D0%BD%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%92%D1%8F%D1%82%D0%BA%D0%B8%D0%BD%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Вяткин Евгений Владимирович" loading="lazy">
+                        </div>
+                        <div class="card-name">Вяткин Евгений Владимирович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="гордеев андрей викторович" data-title="Гордеев Андрей Викторович" data-src="svophoto/%D0%93%D0%BE%D1%80%D0%B4%D0%B5%D0%B5%D0%B2%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%93%D0%BE%D1%80%D0%B4%D0%B5%D0%B5%D0%B2%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Гордеев Андрей Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Гордеев Андрей Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="григорьев виктор владимирович" data-title="Григорьев Виктор Владимирович" data-src="svophoto/%D0%93%D1%80%D0%B8%D0%B3%D0%BE%D1%80%D1%8C%D0%B5%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%93%D1%80%D0%B8%D0%B3%D0%BE%D1%80%D1%8C%D0%B5%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Григорьев Виктор Владимирович" loading="lazy">
+                        </div>
+                        <div class="card-name">Григорьев Виктор Владимирович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="григорьев юрий владимирович" data-title="Григорьев Юрий Владимирович" data-src="svophoto/%D0%93%D1%80%D0%B8%D0%B3%D0%BE%D1%80%D1%8C%D0%B5%D0%B2%20%D0%AE%D1%80%D0%B8%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%93%D1%80%D0%B8%D0%B3%D0%BE%D1%80%D1%8C%D0%B5%D0%B2%20%D0%AE%D1%80%D0%B8%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Григорьев Юрий Владимирович" loading="lazy">
+                        </div>
+                        <div class="card-name">Григорьев Юрий Владимирович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="джараев андрей петрович" data-title="Джараев Андрей Петрович" data-src="svophoto/%D0%94%D0%B6%D0%B0%D1%80%D0%B0%D0%B5%D0%B2%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%94%D0%B6%D0%B0%D1%80%D0%B0%D0%B5%D0%B2%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Джараев Андрей Петрович" loading="lazy">
+                        </div>
+                        <div class="card-name">Джараев Андрей Петрович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="джараев роман геннадьевич" data-title="Джараев Роман Геннадьевич" data-src="svophoto/%D0%94%D0%B6%D0%B0%D1%80%D0%B0%D0%B5%D0%B2%20%D0%A0%D0%BE%D0%BC%D0%B0%D0%BD%20%D0%93%D0%B5%D0%BD%D0%BD%D0%B0%D0%B4%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%94%D0%B6%D0%B0%D1%80%D0%B0%D0%B5%D0%B2%20%D0%A0%D0%BE%D0%BC%D0%B0%D0%BD%20%D0%93%D0%B5%D0%BD%D0%BD%D0%B0%D0%B4%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Джараев Роман Геннадьевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Джараев Роман Геннадьевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="донецкий владимир валерьевич" data-title="Донецкий Владимир Валерьевич" data-src="svophoto/%D0%94%D0%BE%D0%BD%D0%B5%D1%86%D0%BA%D0%B8%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%92%D0%B0%D0%BB%D0%B5%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%94%D0%BE%D0%BD%D0%B5%D1%86%D0%BA%D0%B8%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%92%D0%B0%D0%BB%D0%B5%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Донецкий Владимир Валерьевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Донецкий Владимир Валерьевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="дубковский руслан александрович" data-title="Дубковский Руслан Александрович" data-src="svophoto/%D0%94%D1%83%D0%B1%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D0%A0%D1%83%D1%81%D0%BB%D0%B0%D0%BD%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%94%D1%83%D0%B1%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D0%A0%D1%83%D1%81%D0%BB%D0%B0%D0%BD%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Дубковский Руслан Александрович" loading="lazy">
+                        </div>
+                        <div class="card-name">Дубковский Руслан Александрович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="епанешников виктор александрович" data-title="Епанешников Виктор Александрович" data-src="svophoto/%D0%95%D0%BF%D0%B0%D0%BD%D0%B5%D1%88%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%95%D0%BF%D0%B0%D0%BD%D0%B5%D1%88%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Епанешников Виктор Александрович" loading="lazy">
+                        </div>
+                        <div class="card-name">Епанешников Виктор Александрович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="еремеев михаил викторович" data-title="Еремеев Михаил Викторович" data-src="svophoto/%D0%95%D1%80%D0%B5%D0%BC%D0%B5%D0%B5%D0%B2%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%95%D1%80%D0%B5%D0%BC%D0%B5%D0%B5%D0%B2%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Еремеев Михаил Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Еремеев Михаил Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="ерошенко иван романович" data-title="Ерошенко Иван Романович" data-src="svophoto/%D0%95%D1%80%D0%BE%D1%88%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%98%D0%B2%D0%B0%D0%BD%20%D0%A0%D0%BE%D0%BC%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%95%D1%80%D0%BE%D1%88%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%98%D0%B2%D0%B0%D0%BD%20%D0%A0%D0%BE%D0%BC%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Ерошенко Иван Романович" loading="lazy">
+                        </div>
+                        <div class="card-name">Ерошенко Иван Романович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="жуков артем валериевич" data-title="Жуков Артем Валериевич" data-src="svophoto/%D0%96%D1%83%D0%BA%D0%BE%D0%B2%20%D0%90%D1%80%D1%82%D0%B5%D0%BC%20%D0%92%D0%B0%D0%BB%D0%B5%D1%80%D0%B8%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%96%D1%83%D0%BA%D0%BE%D0%B2%20%D0%90%D1%80%D1%82%D0%B5%D0%BC%20%D0%92%D0%B0%D0%BB%D0%B5%D1%80%D0%B8%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Жуков Артем Валериевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Жуков Артем Валериевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="зыков виталий сергеевич" data-title="Зыков Виталий Сергеевич" data-src="svophoto/%D0%97%D1%8B%D0%BA%D0%BE%D0%B2%20%D0%92%D0%B8%D1%82%D0%B0%D0%BB%D0%B8%D0%B9%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%97%D1%8B%D0%BA%D0%BE%D0%B2%20%D0%92%D0%B8%D1%82%D0%B0%D0%BB%D0%B8%D0%B9%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Зыков Виталий Сергеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Зыков Виталий Сергеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="зыков денис викторович" data-title="Зыков Денис Викторович" data-src="svophoto/%D0%97%D1%8B%D0%BA%D0%BE%D0%B2%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%97%D1%8B%D0%BA%D0%BE%D0%B2%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Зыков Денис Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Зыков Денис Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="зыков михаил юрьевич" data-title="Зыков Михаил Юрьевич" data-src="svophoto/%D0%97%D1%8B%D0%BA%D0%BE%D0%B2%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%97%D1%8B%D0%BA%D0%BE%D0%B2%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Зыков Михаил Юрьевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Зыков Михаил Юрьевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="иваненко владимир васильевич" data-title="Иваненко Владимир Васильевич" data-src="svophoto/%D0%98%D0%B2%D0%B0%D0%BD%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%98%D0%B2%D0%B0%D0%BD%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Иваненко Владимир Васильевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Иваненко Владимир Васильевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="ивашиненко виктор леонидович" data-title="Ивашиненко Виктор Леонидович" data-src="svophoto/%D0%98%D0%B2%D0%B0%D1%88%D0%B8%D0%BD%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%9B%D0%B5%D0%BE%D0%BD%D0%B8%D0%B4%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%98%D0%B2%D0%B0%D1%88%D0%B8%D0%BD%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%9B%D0%B5%D0%BE%D0%BD%D0%B8%D0%B4%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Ивашиненко Виктор Леонидович" loading="lazy">
+                        </div>
+                        <div class="card-name">Ивашиненко Виктор Леонидович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="иконников вячеслав сергеевич" data-title="Иконников Вячеслав Сергеевич" data-src="svophoto/%D0%98%D0%BA%D0%BE%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%D0%92%D1%8F%D1%87%D0%B5%D1%81%D0%BB%D0%B0%D0%B2%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%98%D0%BA%D0%BE%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%D0%92%D1%8F%D1%87%D0%B5%D1%81%D0%BB%D0%B0%D0%B2%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Иконников Вячеслав Сергеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Иконников Вячеслав Сергеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="каримов денис александрович" data-title="Каримов Денис Александрович" data-src="svophoto/%D0%9A%D0%B0%D1%80%D0%B8%D0%BC%D0%BE%D0%B2%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%B0%D1%80%D0%B8%D0%BC%D0%BE%D0%B2%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Каримов Денис Александрович" loading="lazy">
+                        </div>
+                        <div class="card-name">Каримов Денис Александрович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="касьянчик андрей иванович" data-title="Касьянчик Андрей Иванович" data-src="svophoto/%D0%9A%D0%B0%D1%81%D1%8C%D1%8F%D0%BD%D1%87%D0%B8%D0%BA%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%B0%D1%81%D1%8C%D1%8F%D0%BD%D1%87%D0%B8%D0%BA%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Касьянчик Андрей Иванович" loading="lazy">
+                        </div>
+                        <div class="card-name">Касьянчик Андрей Иванович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="кийков николай владимирович" data-title="Кийков Николай Владимирович" data-src="svophoto/%D0%9A%D0%B8%D0%B9%D0%BA%D0%BE%D0%B2%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%B8%D0%B9%D0%BA%D0%BE%D0%B2%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Кийков Николай Владимирович" loading="lazy">
+                        </div>
+                        <div class="card-name">Кийков Николай Владимирович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="кильсеев михаил юрьевич" data-title="Кильсеев Михаил Юрьевич" data-src="svophoto/%D0%9A%D0%B8%D0%BB%D1%8C%D1%81%D0%B5%D0%B5%D0%B2%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%B8%D0%BB%D1%8C%D1%81%D0%B5%D0%B5%D0%B2%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Кильсеев Михаил Юрьевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Кильсеев Михаил Юрьевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="киров александр сергеевич" data-title="Киров Александр Сергеевич" data-src="svophoto/%D0%9A%D0%B8%D1%80%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%B8%D1%80%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Киров Александр Сергеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Киров Александр Сергеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="ковалев иван сергеевич" data-title="Ковалев Иван Сергеевич" data-src="svophoto/%D0%9A%D0%BE%D0%B2%D0%B0%D0%BB%D0%B5%D0%B2%20%D0%98%D0%B2%D0%B0%D0%BD%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%BE%D0%B2%D0%B0%D0%BB%D0%B5%D0%B2%20%D0%98%D0%B2%D0%B0%D0%BD%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Ковалев Иван Сергеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Ковалев Иван Сергеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="козлов николай алексеевич" data-title="Козлов Николай Алексеевич" data-src="svophoto/%D0%9A%D0%BE%D0%B7%D0%BB%D0%BE%D0%B2%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%BE%D0%B7%D0%BB%D0%BE%D0%B2%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Козлов Николай Алексеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Козлов Николай Алексеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="козычев андрей николаевич" data-title="Козычев Андрей Николаевич" data-src="svophoto/%D0%9A%D0%BE%D0%B7%D1%8B%D1%87%D0%B5%D0%B2%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%BE%D0%B7%D1%8B%D1%87%D0%B5%D0%B2%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Козычев Андрей Николаевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Козычев Андрей Николаевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="королев александр борисович" data-title="Королев Александр Борисович" data-src="svophoto/%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D0%B5%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%91%D0%BE%D1%80%D0%B8%D1%81%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D0%B5%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%91%D0%BE%D1%80%D0%B8%D1%81%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Королев Александр Борисович" loading="lazy">
+                        </div>
+                        <div class="card-name">Королев Александр Борисович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="кофтунов константин юрьевич" data-title="Кофтунов Константин Юрьевич" data-src="svophoto/%D0%9A%D0%BE%D1%84%D1%82%D1%83%D0%BD%D0%BE%D0%B2%20%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D0%B0%D0%BD%D1%82%D0%B8%D0%BD%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D0%BE%D1%84%D1%82%D1%83%D0%BD%D0%BE%D0%B2%20%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D0%B0%D0%BD%D1%82%D0%B8%D0%BD%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Кофтунов Константин Юрьевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Кофтунов Константин Юрьевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="кузнецов александр михайлович" data-title="Кузнецов Александр Михайлович" data-src="svophoto/%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Кузнецов Александр Михайлович" loading="lazy">
+                        </div>
+                        <div class="card-name">Кузнецов Александр Михайлович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="кургоир игорь алексеевич" data-title="Кургоир Игорь Алексеевич" data-src="svophoto/%D0%9A%D1%83%D1%80%D0%B3%D0%BE%D0%B8%D1%80%20%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9A%D1%83%D1%80%D0%B3%D0%BE%D0%B8%D1%80%20%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Кургоир Игорь Алексеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Кургоир Игорь Алексеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="лыткин евгений михайлович" data-title="Лыткин Евгений Михайлович" data-src="svophoto/%D0%9B%D1%8B%D1%82%D0%BA%D0%B8%D0%BD%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9B%D1%8B%D1%82%D0%BA%D0%B8%D0%BD%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Лыткин Евгений Михайлович" loading="lazy">
+                        </div>
+                        <div class="card-name">Лыткин Евгений Михайлович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="ляховой александр сергеевич" data-title="Ляховой Александр Сергеевич" data-src="svophoto/%D0%9B%D1%8F%D1%85%D0%BE%D0%B2%D0%BE%D0%B9%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9B%D1%8F%D1%85%D0%BE%D0%B2%D0%BE%D0%B9%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Ляховой Александр Сергеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Ляховой Александр Сергеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="максимов иван сергеевич" data-title="Максимов Иван Сергеевич" data-src="svophoto/%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%D0%BE%D0%B2%20%D0%98%D0%B2%D0%B0%D0%BD%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%D0%BE%D0%B2%20%D0%98%D0%B2%D0%B0%D0%BD%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Максимов Иван Сергеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Максимов Иван Сергеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="малофеев юрий сергеевич" data-title="Малофеев Юрий Сергеевич" data-src="svophoto/%D0%9C%D0%B0%D0%BB%D0%BE%D1%84%D0%B5%D0%B5%D0%B2%20%D0%AE%D1%80%D0%B8%D0%B9%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9C%D0%B0%D0%BB%D0%BE%D1%84%D0%B5%D0%B5%D0%B2%20%D0%AE%D1%80%D0%B8%D0%B9%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Малофеев Юрий Сергеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Малофеев Юрий Сергеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="малыгин сергей юрьевич" data-title="Малыгин Сергей Юрьевич" data-src="svophoto/%D0%9C%D0%B0%D0%BB%D1%8B%D0%B3%D0%B8%D0%BD%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9C%D0%B0%D0%BB%D1%8B%D0%B3%D0%B8%D0%BD%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Малыгин Сергей Юрьевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Малыгин Сергей Юрьевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="малявко алексей николаевич" data-title="Малявко Алексей Николаевич" data-src="svophoto/%D0%9C%D0%B0%D0%BB%D1%8F%D0%B2%D0%BA%D0%BE%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9C%D0%B0%D0%BB%D1%8F%D0%B2%D0%BA%D0%BE%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Малявко Алексей Николаевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Малявко Алексей Николаевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="мачутский денис викторович" data-title="Мачутский Денис Викторович" data-src="svophoto/%D0%9C%D0%B0%D1%87%D1%83%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9C%D0%B0%D1%87%D1%83%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Мачутский Денис Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Мачутский Денис Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="метелкин вадим анатольевич" data-title="Метелкин Вадим Анатольевич" data-src="svophoto/%D0%9C%D0%B5%D1%82%D0%B5%D0%BB%D0%BA%D0%B8%D0%BD%20%D0%92%D0%B0%D0%B4%D0%B8%D0%BC%20%D0%90%D0%BD%D0%B0%D1%82%D0%BE%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9C%D0%B5%D1%82%D0%B5%D0%BB%D0%BA%D0%B8%D0%BD%20%D0%92%D0%B0%D0%B4%D0%B8%D0%BC%20%D0%90%D0%BD%D0%B0%D1%82%D0%BE%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Метелкин Вадим Анатольевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Метелкин Вадим Анатольевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="пайков виктор андреевич" data-title="Пайков Виктор Андреевич" data-src="svophoto/%D0%9F%D0%B0%D0%B9%D0%BA%D0%BE%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9F%D0%B0%D0%B9%D0%BA%D0%BE%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Пайков Виктор Андреевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Пайков Виктор Андреевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="перминов алексей евгеньевич" data-title="Перминов Алексей Евгеньевич" data-src="svophoto/%D0%9F%D0%B5%D1%80%D0%BC%D0%B8%D0%BD%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9F%D0%B5%D1%80%D0%BC%D0%B8%D0%BD%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Перминов Алексей Евгеньевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Перминов Алексей Евгеньевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="поддубский виктор александрович" data-title="Поддубский Виктор Александрович" data-src="svophoto/%D0%9F%D0%BE%D0%B4%D0%B4%D1%83%D0%B1%D1%81%D0%BA%D0%B8%D0%B9%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9F%D0%BE%D0%B4%D0%B4%D1%83%D0%B1%D1%81%D0%BA%D0%B8%D0%B9%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Поддубский Виктор Александрович" loading="lazy">
+                        </div>
+                        <div class="card-name">Поддубский Виктор Александрович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="пушкарев виктор викторович" data-title="Пушкарев Виктор Викторович" data-src="svophoto/%D0%9F%D1%83%D1%88%D0%BA%D0%B0%D1%80%D0%B5%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%9F%D1%83%D1%88%D0%BA%D0%B0%D1%80%D0%B5%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Пушкарев Виктор Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Пушкарев Виктор Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="репин с" data-title="Репин С" data-src="svophoto/%D0%A0%D0%B5%D0%BF%D0%B8%D0%BD%20%D0%A1.jpg">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A0%D0%B5%D0%BF%D0%B8%D0%BD%20%D0%A1.jpg" alt="Репин С" loading="lazy">
+                        </div>
+                        <div class="card-name">Репин С</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="репин сергей михайлович" data-title="Репин Сергей Михайлович" data-src="svophoto/%D0%A0%D0%B5%D0%BF%D0%B8%D0%BD%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A0%D0%B5%D0%BF%D0%B8%D0%BD%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Репин Сергей Михайлович" loading="lazy">
+                        </div>
+                        <div class="card-name">Репин Сергей Михайлович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="рогунов виктор сергеевич" data-title="Рогунов Виктор Сергеевич" data-src="svophoto/%D0%A0%D0%BE%D0%B3%D1%83%D0%BD%D0%BE%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.jpg">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A0%D0%BE%D0%B3%D1%83%D0%BD%D0%BE%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.jpg" alt="Рогунов Виктор Сергеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Рогунов Виктор Сергеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="ротько александр валериевич" data-title="Ротько Александр Валериевич" data-src="svophoto/%D0%A0%D0%BE%D1%82%D1%8C%D0%BA%D0%BE%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%92%D0%B0%D0%BB%D0%B5%D1%80%D0%B8%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A0%D0%BE%D1%82%D1%8C%D0%BA%D0%BE%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%92%D0%B0%D0%BB%D0%B5%D1%80%D0%B8%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Ротько Александр Валериевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Ротько Александр Валериевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="севостьянов дмитрий анатольевич" data-title="Севостьянов Дмитрий Анатольевич" data-src="svophoto/%D0%A1%D0%B5%D0%B2%D0%BE%D1%81%D1%82%D1%8C%D1%8F%D0%BD%D0%BE%D0%B2%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%20%D0%90%D0%BD%D0%B0%D1%82%D0%BE%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A1%D0%B5%D0%B2%D0%BE%D1%81%D1%82%D1%8C%D1%8F%D0%BD%D0%BE%D0%B2%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%20%D0%90%D0%BD%D0%B0%D1%82%D0%BE%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Севостьянов Дмитрий Анатольевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Севостьянов Дмитрий Анатольевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="сергеев дмитрий павлович" data-title="Сергеев Дмитрий Павлович" data-src="svophoto/%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%20%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.jpg">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%20%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.jpg" alt="Сергеев Дмитрий Павлович" loading="lazy">
+                        </div>
+                        <div class="card-name">Сергеев Дмитрий Павлович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="силаев виктор николаевич" data-title="Силаев Виктор Николаевич" data-src="svophoto/%D0%A1%D0%B8%D0%BB%D0%B0%D0%B5%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A1%D0%B8%D0%BB%D0%B0%D0%B5%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Силаев Виктор Николаевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Силаев Виктор Николаевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="смирнов сергей эдуардович" data-title="Смирнов Сергей Эдуардович" data-src="svophoto/%D0%A1%D0%BC%D0%B8%D1%80%D0%BD%D0%BE%D0%B2%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%AD%D0%B4%D1%83%D0%B0%D1%80%D0%B4%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A1%D0%BC%D0%B8%D1%80%D0%BD%D0%BE%D0%B2%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%AD%D0%B4%D1%83%D0%B0%D1%80%D0%B4%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Смирнов Сергей Эдуардович" loading="lazy">
+                        </div>
+                        <div class="card-name">Смирнов Сергей Эдуардович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="соколов александр иванович" data-title="Соколов Александр Иванович" data-src="svophoto/%D0%A1%D0%BE%D0%BA%D0%BE%D0%BB%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A1%D0%BE%D0%BA%D0%BE%D0%BB%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Соколов Александр Иванович" loading="lazy">
+                        </div>
+                        <div class="card-name">Соколов Александр Иванович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="солодов максим васильевич" data-title="Солодов Максим Васильевич" data-src="svophoto/%D0%A1%D0%BE%D0%BB%D0%BE%D0%B4%D0%BE%D0%B2%20%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%20%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A1%D0%BE%D0%BB%D0%BE%D0%B4%D0%BE%D0%B2%20%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%20%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Солодов Максим Васильевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Солодов Максим Васильевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="старовойтов александр александрович" data-title="Старовойтов Александр Александрович" data-src="svophoto/%D0%A1%D1%82%D0%B0%D1%80%D0%BE%D0%B2%D0%BE%D0%B9%D1%82%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A1%D1%82%D0%B0%D1%80%D0%BE%D0%B2%D0%BE%D0%B9%D1%82%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Старовойтов Александр Александрович" loading="lazy">
+                        </div>
+                        <div class="card-name">Старовойтов Александр Александрович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="степанцов игорь викторович" data-title="Степанцов Игорь Викторович" data-src="svophoto/%D0%A1%D1%82%D0%B5%D0%BF%D0%B0%D0%BD%D1%86%D0%BE%D0%B2%20%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A1%D1%82%D0%B5%D0%BF%D0%B0%D0%BD%D1%86%D0%BE%D0%B2%20%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Степанцов Игорь Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Степанцов Игорь Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="стрижков алексей сергеевич" data-title="Стрижков Алексей Сергеевич" data-src="svophoto/%D0%A1%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A1%D1%82%D1%80%D0%B8%D0%B6%D0%BA%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Стрижков Алексей Сергеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Стрижков Алексей Сергеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="тарасенко сергей иванович" data-title="Тарасенко Сергей Иванович" data-src="svophoto/%D0%A2%D0%B0%D1%80%D0%B0%D1%81%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A2%D0%B0%D1%80%D0%B0%D1%81%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9%20%D0%98%D0%B2%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Тарасенко Сергей Иванович" loading="lazy">
+                        </div>
+                        <div class="card-name">Тарасенко Сергей Иванович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="таскин алексей юрьевич" data-title="Таскин Алексей Юрьевич" data-src="svophoto/%D0%A2%D0%B0%D1%81%D0%BA%D0%B8%D0%BD%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A2%D0%B0%D1%81%D0%BA%D0%B8%D0%BD%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Таскин Алексей Юрьевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Таскин Алексей Юрьевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="тимофеев виктор владимирович" data-title="Тимофеев Виктор Владимирович" data-src="svophoto/%D0%A2%D0%B8%D0%BC%D0%BE%D1%84%D0%B5%D0%B5%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A2%D0%B8%D0%BC%D0%BE%D1%84%D0%B5%D0%B5%D0%B2%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Тимофеев Виктор Владимирович" loading="lazy">
+                        </div>
+                        <div class="card-name">Тимофеев Виктор Владимирович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="тимохин евгений юрьевич" data-title="Тимохин Евгений Юрьевич" data-src="svophoto/%D0%A2%D0%B8%D0%BC%D0%BE%D1%85%D0%B8%D0%BD%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A2%D0%B8%D0%BC%D0%BE%D1%85%D0%B8%D0%BD%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%AE%D1%80%D1%8C%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Тимохин Евгений Юрьевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Тимохин Евгений Юрьевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="турченко денис николаевич" data-title="Турченко Денис Николаевич" data-src="svophoto/%D0%A2%D1%83%D1%80%D1%87%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A2%D1%83%D1%80%D1%87%D0%B5%D0%BD%D0%BA%D0%BE%20%D0%94%D0%B5%D0%BD%D0%B8%D1%81%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Турченко Денис Николаевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Турченко Денис Николаевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="успенский николай викторович" data-title="Успенский Николай Викторович" data-src="svophoto/%D0%A3%D1%81%D0%BF%D0%B5%D0%BD%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A3%D1%81%D0%BF%D0%B5%D0%BD%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Успенский Николай Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Успенский Николай Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="федотов александр владимирович" data-title="Федотов Александр Владимирович" data-src="svophoto/%D0%A4%D0%B5%D0%B4%D0%BE%D1%82%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A4%D0%B5%D0%B4%D0%BE%D1%82%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Федотов Александр Владимирович" loading="lazy">
+                        </div>
+                        <div class="card-name">Федотов Александр Владимирович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="феськов александр алексеевич" data-title="Феськов Александр Алексеевич" data-src="svophoto/%D0%A4%D0%B5%D1%81%D1%8C%D0%BA%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A4%D0%B5%D1%81%D1%8C%D0%BA%D0%BE%D0%B2%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Феськов Александр Алексеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Феськов Александр Алексеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="черноусов павел алексеевич" data-title="Черноусов Павел Алексеевич" data-src="svophoto/%D0%A7%D0%B5%D1%80%D0%BD%D0%BE%D1%83%D1%81%D0%BE%D0%B2%20%D0%9F%D0%B0%D0%B2%D0%B5%D0%BB%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.jpg">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A7%D0%B5%D1%80%D0%BD%D0%BE%D1%83%D1%81%D0%BE%D0%B2%20%D0%9F%D0%B0%D0%B2%D0%B5%D0%BB%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.jpg" alt="Черноусов Павел Алексеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Черноусов Павел Алексеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="четверугин" data-title="Четверугин" data-src="svophoto/%D0%A7%D0%B5%D1%82%D0%B2%D0%B5%D1%80%D1%83%D0%B3%D0%B8%D0%BD.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A7%D0%B5%D1%82%D0%B2%D0%B5%D1%80%D1%83%D0%B3%D0%B8%D0%BD.png" alt="Четверугин" loading="lazy">
+                        </div>
+                        <div class="card-name">Четверугин</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="четверугин андрей александрович" data-title="Четверугин Андрей Александрович" data-src="svophoto/%D0%A7%D0%B5%D1%82%D0%B2%D0%B5%D1%80%D1%83%D0%B3%D0%B8%D0%BD%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A7%D0%B5%D1%82%D0%B2%D0%B5%D1%80%D1%83%D0%B3%D0%B8%D0%BD%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Четверугин Андрей Александрович" loading="lazy">
+                        </div>
+                        <div class="card-name">Четверугин Андрей Александрович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="шекк андрей владимирович" data-title="Шекк Андрей Владимирович" data-src="svophoto/%D0%A8%D0%B5%D0%BA%D0%BA%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A8%D0%B5%D0%BA%D0%BA%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Шекк Андрей Владимирович" loading="lazy">
+                        </div>
+                        <div class="card-name">Шекк Андрей Владимирович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="шендриков евгений викторович" data-title="Шендриков Евгений Викторович" data-src="svophoto/%D0%A8%D0%B5%D0%BD%D0%B4%D1%80%D0%B8%D0%BA%D0%BE%D0%B2%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A8%D0%B5%D0%BD%D0%B4%D1%80%D0%B8%D0%BA%D0%BE%D0%B2%20%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Шендриков Евгений Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Шендриков Евгений Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="шпейтер александр серегеевич" data-title="Шпейтер Александр Серегеевич" data-src="svophoto/%D0%A8%D0%BF%D0%B5%D0%B9%D1%82%D0%B5%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%A1%D0%B5%D1%80%D0%B5%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A8%D0%BF%D0%B5%D0%B9%D1%82%D0%B5%D1%80%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%A1%D0%B5%D1%80%D0%B5%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Шпейтер Александр Серегеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Шпейтер Александр Серегеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="шумахин владимир андреевич" data-title="Шумахин Владимир Андреевич" data-src="svophoto/%D0%A8%D1%83%D0%BC%D0%B0%D1%85%D0%B8%D0%BD%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A8%D1%83%D0%BC%D0%B0%D1%85%D0%B8%D0%BD%20%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Шумахин Владимир Андреевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Шумахин Владимир Андреевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="шурупов игорь викторович" data-title="Шурупов Игорь Викторович" data-src="svophoto/%D0%A8%D1%83%D1%80%D1%83%D0%BF%D0%BE%D0%B2%20%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A8%D1%83%D1%80%D1%83%D0%BF%D0%BE%D0%B2%20%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Шурупов Игорь Викторович" loading="lazy">
+                        </div>
+                        <div class="card-name">Шурупов Игорь Викторович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="шустов игорь николаевич" data-title="Шустов Игорь Николаевич" data-src="svophoto/%D0%A8%D1%83%D1%81%D1%82%D0%BE%D0%B2%20%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%A8%D1%83%D1%81%D1%82%D0%BE%D0%B2%20%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2%D0%B8%D1%87.png" alt="Шустов Игорь Николаевич" loading="lazy">
+                        </div>
+                        <div class="card-name">Шустов Игорь Николаевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="юзва андрей михайлович" data-title="Юзва Андрей Михайлович" data-src="svophoto/%D0%AE%D0%B7%D0%B2%D0%B0%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%AE%D0%B7%D0%B2%D0%B0%20%D0%90%D0%BD%D0%B4%D1%80%D0%B5%D0%B9%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.png" alt="Юзва Андрей Михайлович" loading="lazy">
+                        </div>
+                        <div class="card-name">Юзва Андрей Михайлович</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="малышев николай алексеевич" data-title="малышев николай алексеевич" data-src="svophoto/%D0%BC%D0%B0%D0%BB%D1%8B%D1%88%D0%B5%D0%B2%20%D0%BD%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%20%D0%B0%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%BC%D0%B0%D0%BB%D1%8B%D1%88%D0%B5%D0%B2%20%D0%BD%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%20%D0%B0%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.png" alt="малышев николай алексеевич" loading="lazy">
+                        </div>
+                        <div class="card-name">малышев николай алексеевич</div>
+                    </article>
+                                    <article class="card" tabindex="0" data-name="могуренко" data-title="могуренко" data-src="svophoto/%D0%BC%D0%BE%D0%B3%D1%83%D1%80%D0%B5%D0%BD%D0%BA%D0%BE.png">
+                        <div class="photo">
+                            <img src="svophoto/%D0%BC%D0%BE%D0%B3%D1%83%D1%80%D0%B5%D0%BD%D0%BA%D0%BE.png" alt="могуренко" loading="lazy">
+                        </div>
+                        <div class="card-name">могуренко</div>
+                    </article>
+                            </div>
+            <div class="empty" id="emptyState" hidden>Ничего не найдено.</div>
+        </section>
+        <p class="note">Если вы заметили неточность в подписи или хотите дополнить сведения, обратитесь в Балахтинский районный краеведческий музей.</p>
+    </main>
+
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+        <div class="modal-dialog">
+            <div class="modal-photo">
+                <img id="modalImage" src="" alt="">
+            </div>
+            <div class="modal-body">
+                <h2 id="modalName"></h2>
+                <button class="close" id="modalClose" type="button" aria-label="Закрыть">×</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cards = Array.from(document.querySelectorAll('.card'));
+        const searchInput = document.getElementById('searchInput');
+        const counter = document.getElementById('counter');
+        const emptyState = document.getElementById('emptyState');
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modalImage');
+        const modalName = document.getElementById('modalName');
+        const modalClose = document.getElementById('modalClose');
+
+        function normalize(value) {
+            return value.toLowerCase().replaceAll('ё', 'е').trim();
+        }
+
+        function openModal(card) {
+            modalImage.src = card.dataset.src;
+            modalImage.alt = card.dataset.title;
+            modalName.textContent = card.dataset.title;
+            modal.classList.add('open');
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            modalImage.src = '';
+        }
+
+        function update() {
+            const query = normalize(searchInput.value);
+            let visible = 0;
+
+            cards.forEach((card) => {
+                const matches = !query || normalize(card.dataset.name).includes(query);
+                card.hidden = !matches;
+                if (matches) visible += 1;
+            });
+
+            counter.textContent = `Показано: ${visible} из ${cards.length}`;
+            emptyState.hidden = visible > 0;
+        }
+
+        cards.forEach((card) => {
+            card.addEventListener('click', () => openModal(card));
+            card.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') openModal(card);
+            });
+        });
+
+        searchInput.addEventListener('input', update);
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeModal();
+        });
+
+        update();
+    </script>
+</body>
+</html>
